@@ -32,7 +32,6 @@ class CheckConstraintTest {
 
         con = DriverManager.getConnection(config.getDbUrl(), config.getDbUser(), config.getDbPassword());
         con.createStatement().execute("DROP TABLE IF EXISTS Student");
-        con.createStatement().execute("DROP TABLE IF EXISTS StudentSchool");
         con.createStatement().execute(CREATE_QUERY);
     }
 
@@ -43,12 +42,18 @@ class CheckConstraintTest {
 
     @Test
     void shouldAddDataWithAge18() throws Exception{
-        fail("not yet implemented!");
+        con.createStatement().execute("INSERT INTO Student (StudentId, Name, Age) VALUES (1, \"Nisse\", 18)");
     }
 
     @Test
     void shouldANotAcceptDataWithAge17() throws Exception{
-        fail("not yet implemented!");
+        try {
+            con.createStatement().execute("INSERT INTO Student (StudentId, Name, Age) VALUES (2, \"Olle\", 17)");
+        }catch (SQLException e){
+            assertTrue(true, "Test worked");
+            return;
+        }
+        fail("Database constraint has failed");
     }
 
 }

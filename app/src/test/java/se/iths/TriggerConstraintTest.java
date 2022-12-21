@@ -11,6 +11,10 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * GRANT SUPER ON *.* TO iths@'%';
+ * Vi måste ha SUPER rättigheter för att få skapa triggers
+ */
 class TriggerConstraintTest {
 
     private static final String CREATE_QUERY =
@@ -23,10 +27,14 @@ CREATE TABLE Student (
 """;
     private static final String CREATE_TRIGGER =
 """
-    CREATE TRIGGER agecheck 
-    BEFORE INSERT 
-    ON Student FOR EACH ROW IF NEW.Age < 17
-    THEN SET NEW.Age = 0; END IF;
+delimiter //
+CREATE TRIGGER student_age_trigger BEFORE INSERT
+ON Student
+FOR EACH ROW
+IF NEW.Age < 18 THEN
+SIGNAL SQLSTATE '50001' SET MESSAGE_TEXT = 'Student must be older than 18.';
+END IF; //
+delimiter ;
 """;
 
     private Configuration config = new Configuration();
@@ -36,11 +44,13 @@ CREATE TABLE Student (
 
         con = DriverManager.getConnection(config.getDbUrl(), config.getDbUser(), config.getDbPassword());
         con.createStatement().execute("DROP TABLE IF EXISTS Student");
+        con.createStatement().execute(CREATE_QUERY);
         try {
-            con.createStatement().execute(CREATE_QUERY);
+            con.createStatement().execute("INSERT INTO Student (StudentId, Name, Age) VALUES (1, \"Nisse\", 17)");
         }catch (Exception e){
             System.out.println(e);
         }
+        System.out.println("Hello World");
     }
 
     @AfterEach
