@@ -7,8 +7,10 @@ import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class CheckConstraintTest {
@@ -16,7 +18,7 @@ class CheckConstraintTest {
     private static final String CREATE_QUERY =
     """
     CREATE TABLE Student (
-     ID int NOT NULL,
+     StudentId int NOT NULL,
      Name varchar(255) NOT NULL,
      Age int,
      CHECK (Age>=18)
@@ -39,9 +41,14 @@ class CheckConstraintTest {
         con.close();
     }
 
-    @Disabled
     @Test
-    void shouldFailWithCorrectException() throws Exception {
+    void shouldAddDataWithAge18() throws Exception{
         fail("not yet implemented!");
     }
+
+    @Test
+    void shouldANotAcceptDataWithAge17() throws Exception{
+        fail("not yet implemented!");
+    }
+
 }

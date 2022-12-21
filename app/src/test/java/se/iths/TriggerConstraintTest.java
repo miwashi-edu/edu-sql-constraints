@@ -17,8 +17,16 @@ class TriggerConstraintTest {
 """
 CREATE TABLE Student (
     ID int NOT NULL,
-    Name varchar(255) NOT NULL
+    Name varchar(255) NOT NULL,
+    Age int NOT NULL 0
 );
+""";
+    private static final String CREATE_TRIGGER =
+"""
+    CREATE TRIGGER agecheck 
+    BEFORE INSERT 
+    ON Student FOR EACH ROW IF NEW.Age < 17
+    THEN SET NEW.Age = 0; END IF;
 """;
 
     private Configuration config = new Configuration();

@@ -18,8 +18,9 @@ class UniqueConstraintTest {
     private static final String CREATE_QUERY =
 """
 CREATE TABLE Student (
-    ID int NOT NULL,
-    Name varchar(255) NOT NULL
+    StudentId int NOT NULL,
+    Name varchar(255) NOT NULL,
+    CONSTRAINT UC_Student UNIQUE (Name)
 );
 """;
 
@@ -42,7 +43,7 @@ CREATE TABLE Student (
         con.close();
     }
 
-    @Disabled @Test void shouldFailWithCorrectException() throws Exception {
+    @Disabled @Test void shouldFailWhenAddingDuplicteName() throws Exception {
         fail("not yet implemented!");
     }
 }
