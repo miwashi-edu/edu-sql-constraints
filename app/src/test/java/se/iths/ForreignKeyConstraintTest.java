@@ -12,7 +12,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-class AppTest {
+import static org.junit.jupiter.api.Assertions.fail;
+
+class ForreignKeyConstraintTest {
 
     private static final String CREATE_QUERY =
 """
@@ -42,9 +44,6 @@ CREATE TABLE Student (
     }
 
     @Test void shouldFailWithCorrectException() throws Exception {
-        SQLIntegrityConstraintViolationException thrown = Assertions.assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
-            con.createStatement().execute("INSERT INTO Student (Id, Name) VALUES(1, NULL)");
-        }, "SQLIntegrityConstraintViolationException was expected");
-
+        fail("not yet implemented!");
     }
 }
