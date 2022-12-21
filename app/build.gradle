@@ -18,7 +18,7 @@ application {
 tasks.named('test') {
     testLogging {
         showStandardStreams=true
-        events "standardOut", "started", "passed", "skipped", "failed"
+        events "standardOut", "passed", "skipped", "failed"
     }
 
     useJUnitPlatform()

@@ -3,10 +3,7 @@
  */
 package se.iths;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -55,6 +52,7 @@ class PrimaryKeyConstraintTest {
         con.close();
     }
 
+    @Disabled
     @Test void shouldFailWithCorrectException() throws Exception {
         fail("not yet implemented!");
     }

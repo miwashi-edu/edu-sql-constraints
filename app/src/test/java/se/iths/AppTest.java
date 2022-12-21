@@ -40,12 +40,7 @@ CREATE TABLE Student (
         con.close();
     }
 
-    @Test void shouldFailWithCorrectException() throws Exception {
-        try {
-            con.createStatement().execute("INSERT INTO Student (Id, Name) VALUES(1, NULL)");
-        }catch(Exception e){
-            System.out.println("Test Succeeded");
-        }
-
+    @Disabled @Test void shouldFailWithCorrectException() throws Exception {
+        con.createStatement().execute("INSERT INTO Student (Id, Name) VALUES(1, NULL)");
     }
 }
