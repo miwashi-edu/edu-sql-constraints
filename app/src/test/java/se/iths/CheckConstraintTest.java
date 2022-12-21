@@ -16,14 +16,24 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class CheckConstraintTest {
 
-    private static final String CREATE_QUERY =
+    private static final String CREATE_QUERY_1 =
 """
 CREATE TABLE Student (
-    ID int NOT NULL,
-    Name varchar(255) NOT NULL
+ ID int NOT NULL,
+ Name varchar(255) NOT NULL,
+ Age int,
+ CHECK (Age>=18)
 );
 """;
 
+private static final String CREATE_QUERY_2 =
+"""
+CREATE TABLE StudentSchool (
+ StudentId int NOT NULL,
+ SchoolId int NOT NULL
+ CONSTRAINT School_Person UNIQUE (StudentId,SchoolId)
+)
+""";
     private Configuration config = new Configuration();
     private Connection con = null;
     @BeforeEach
@@ -31,11 +41,9 @@ CREATE TABLE Student (
 
         con = DriverManager.getConnection(config.getDbUrl(), config.getDbUser(), config.getDbPassword());
         con.createStatement().execute("DROP TABLE IF EXISTS Student");
-        try {
-            con.createStatement().execute(CREATE_QUERY);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+        con.createStatement().execute("DROP TABLE IF EXISTS StudentSchool");
+        con.createStatement().execute(CREATE_QUERY_1);
+        con.createStatement().execute(CREATE_QUERY_2);
     }
 
     @AfterEach

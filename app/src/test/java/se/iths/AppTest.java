@@ -3,14 +3,13 @@
  */
 package se.iths;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLIntegrityConstraintViolationException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AppTest {
 
@@ -42,7 +41,7 @@ CREATE TABLE Student (
     }
 
     @Test void shouldFailWithCorrectException() throws Exception {
-        SQLIntegrityConstraintViolationException thrown = Assertions.assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
+        SQLIntegrityConstraintViolationException thrown = assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
             con.createStatement().execute("INSERT INTO Student (Id, Name) VALUES(1, NULL)");
         }, "SQLIntegrityConstraintViolationException was expected");
 
